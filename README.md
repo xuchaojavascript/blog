@@ -1,6 +1,6 @@
 # vueblog
 
-> xuchao blog
+> xuchao blog(前端部分)
 
 ## Build Setup
 
