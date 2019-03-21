@@ -44,9 +44,7 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-  computed: {
-    ...mapState(['refer'])
-  },
+
   data() {
     return {
       userInfo: {},
@@ -68,6 +66,7 @@ export default {
       showSwipe: true,
     }
   },
+
   methods: {
     // 跳转登录注册页面
     goto(id){

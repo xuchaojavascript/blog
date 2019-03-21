@@ -67,7 +67,7 @@
   import { mapState } from 'vuex'
   export default {
     computed: {
-      ...mapState(['refer'])
+      // ...mapState(['refer'])
     },
     data() {
       return {
