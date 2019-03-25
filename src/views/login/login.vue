@@ -95,6 +95,7 @@
                   layer.msg(res.data.msg,{time:1000},() => {
                     window.localStorage.setItem('userData', JSON.stringify(res.data.userData))
                     that.$router.push({path: '/'})
+                    window.history.go(0)
                   })
                 }else{
                   layer.msg('登录失败,'+res.data.msg);
