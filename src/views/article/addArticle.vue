@@ -3,9 +3,6 @@
     <div class="layui-container">
       <div class="article-add layui-form">
         <div class="layui-tab layui-tab-brief" lay-filter="user">
-          <ul class="layui-tab-title">
-            <li class="layui-this">编辑</li>
-          </ul>
           <div id="editing" class="layui-form layui-form-content">
             <div class="layui-tab-item layui-show">
               <form action="/article" method="POST">
@@ -56,23 +53,15 @@
       }
     },
     created() {
-      let that = this
     },
     mounted() {
-      layui.use(['form', 'layedit', "element"], function() {
+      let that = this
+      layui.use(['form', 'layedit', "element", 'layer'], function() {
         let val = "#{logNot}";
         const form = layui.form;
         const layedit = layui.layedit;
+        var layer = layui.layer;
         const $ = layui.$
-        $.get("/user/isNew", (data) => {
-          if(data.isNew){
-            layer.msg('请先登录', {
-              end(){
-                location.href('/user/login')
-              }
-            })
-          }
-        })
         const index = layedit.build('article-content', {
           hideTool: [
             'image' //插入图片
@@ -80,22 +69,20 @@
         }); //建立编辑器
         form.on("submit(send)", (res) => {
           const { tips, title } = res.field
-
           if(layedit.getText(index).trim().length === 0)return layer.alert("请输入内容")
-          
           const data = {
+            author: JSON.parse(window.localStorage.getItem('userData')).userId,
             tips,
             title,
             content: layedit.getContent(index)
           }
-
-          $.post("/article", data, (msg) => {
-            if(msg.status){
-              layer.alert('发表成功', (res) => {
-                location.href = "/"
+          that.$axios.post('/article/post', data).then(res=>{
+            if(res.status){
+              layer.msg(res.data.msg,{time:1000},() => {
+                that.$router.push({path: '/'})
               })
             }else{
-              layer.alert(`发表失败，失败信息：${msg.msg}`)
+              layer.msg(`发表失败，失败信息：${msg.msg}`)
             }
           })
         })
@@ -107,8 +94,8 @@
 
 <style scoped lang="scss">
   #main .layui-container {
+    margin-top: 15px;
     margin-bottom: 15px;
-    margin-top: 76px;
     border-radius: 2px;
     background-color: #fff;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);

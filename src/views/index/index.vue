@@ -44,7 +44,6 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-
   data() {
     return {
       userInfo: {},
@@ -95,8 +94,8 @@ export default {
             let layer = layui.layer;
             let element = layui.element;
             layer.msg(res.data.msg,{time:1000},() => {
-              window.localStorage.setItem('userData', ''),
-              window.history.go(0)
+              window.localStorage.setItem('userData', '')
+              that.isAlyLogin = false
             })
           })
         }
@@ -104,6 +103,8 @@ export default {
     }
   },
   mounted() {
+    console.log(111);
+    
     layui.use('element', function(){
       let element = layui.element;
       element.render()
