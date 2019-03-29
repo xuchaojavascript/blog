@@ -7,7 +7,7 @@
         </a>
         <h2>
           <a href="javascript:;" class="layui-badge">{{v.tips}}</a>
-          <a href="/article/detail/${v._id}" class="articlt-title ellipsis">
+          <a href="javascript:;" @click="goToDetail(v._id)" class="articlt-title ellipsis">
             {{v.title}}
           </a>
         </h2>
@@ -37,6 +37,14 @@
       getArticleList(){
         this.$axios.get('/article/getlist').then(res=>{
           this.articleDatas = res.data.artList
+        })
+      },
+      goToDetail(id){
+        this.$router.push({
+          path: '/blog/article_detail',
+          query: {
+            id
+          }
         })
       }
     },

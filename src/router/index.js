@@ -10,6 +10,7 @@ import USERMANAGE from '@/views/user/subManages/userManage.vue'
 import COMMONMANAGE from '@/views/user/subManages/commonManage.vue'
 import USERFACE from '@/views/user/subManages/userface.vue'
 import ADDARTICLE from '@/views/article/addArticle.vue'
+import ARTICLEDETAIL from '@/views/article/articleDetail.vue'
 
 
 Vue.use(Router)
@@ -29,6 +30,10 @@ export default new Router({
             {
               path: '/blog/index',
               component: CONTENT,
+            },
+            {
+              path: '/blog/article_detail',
+              component: ARTICLEDETAIL,
             }
           ]
         },

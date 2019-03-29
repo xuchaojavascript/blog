@@ -60,6 +60,11 @@
           this.$router.push({
             path: '/addArticle'
           })
+        }else{
+          layui.use(['layer'], function(){
+            let layer = layui.layer;
+            layer.msg('请先登录')
+          })
         }
       }
     },
