@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="blog-panel">
     <div class="layui-container">
       <ul class="layui-clear">
@@ -15,8 +16,9 @@
         <a href="javascriot:;" @click="addArticle" class="layui-btn layui-bg-blue">添加文章</a>
       </div>
     </div>
-    <router-view></router-view>
 	</div>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
@@ -69,7 +71,8 @@
       }
     },
     mounted() {
-      this.getMenus(this.$route.query.id)
+
+      this.getMenus(1)
       // this.getArticleList()
     },
     watch: {

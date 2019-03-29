@@ -2,7 +2,8 @@
   <div class="layui-container main">
 		<div class="layui-row layui-col-space15">
 			<div class="layui-col-md8">
-        <article-list></article-list>
+        <router-view></router-view>
+        <!-- <article-list></article-list> -->
 			</div>
 			<div class="layui-col-md4">
 				<div class="layui-card">
@@ -20,11 +21,9 @@
 </template>
 
 <script>
-  import articleList from './subChild/articleList.vue'
   import articlePopular from './subChild/articlePopular.vue'
   export default {
     components: {
-      articleList,
       articlePopular,
     },
   }
@@ -32,11 +31,13 @@
 
 <style scoped lang="scss">
   .main{
+    margin-top: 15px;
     min-height: 500px;
-    .list-face {
-      position: absolute;
-      top: 15px;
-      left: 15px;
+    .layui-card{
+      background-color: #fff;
+      .announce p{
+        margin-top: 16px;
+      }
     }
   }
 </style>

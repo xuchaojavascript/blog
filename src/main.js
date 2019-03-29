@@ -9,6 +9,11 @@ import Axios from 'axios'
 Axios.defaults.baseURL = 'http://localhost:3000'
 Vue.prototype.$axios = Axios
 
+// 注册全局过滤器
+Vue.filter('formatting', function (value) {
+  return new Date(value).toLocaleString()
+})
+
 Vue.config.productionTip = false
 // 配置axios
 /* eslint-disable no-new */

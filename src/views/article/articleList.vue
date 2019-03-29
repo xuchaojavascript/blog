@@ -41,7 +41,7 @@
       },
       goToDetail(id){
         this.$router.push({
-          path: '/blog/article_detail',
+          path: '/blog/index/article_detail',
           query: {
             id
           }
@@ -56,6 +56,7 @@
 
 <style scoped lang="scss">
   .article-list{
+    background-color: #fff;
     .article-menu {
       position: relative;
       padding: 15px 15px 15px 75px;
@@ -77,7 +78,7 @@
         }
       }
     }
-  }  
+  }
   
 
 

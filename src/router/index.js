@@ -10,6 +10,7 @@ import USERMANAGE from '@/views/user/subManages/userManage.vue'
 import COMMONMANAGE from '@/views/user/subManages/commonManage.vue'
 import USERFACE from '@/views/user/subManages/userface.vue'
 import ADDARTICLE from '@/views/article/addArticle.vue'
+import ARTICLELIST from '@/views/article/articleList.vue'
 import ARTICLEDETAIL from '@/views/article/articleDetail.vue'
 
 
@@ -30,11 +31,18 @@ export default new Router({
             {
               path: '/blog/index',
               component: CONTENT,
-            },
-            {
-              path: '/blog/article_detail',
-              component: ARTICLEDETAIL,
-            }
+              redirect:'/blog/index/article_list',
+              children: [
+                {
+                  path: '/blog/index/article_list',
+                  component: ARTICLELIST,
+                },
+                {
+                  path: '/blog/index/article_detail',
+                  component: ARTICLEDETAIL,
+                }
+              ]
+            },            
           ]
         },
         {
