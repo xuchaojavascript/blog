@@ -1,5 +1,6 @@
 <template>
   <div id="main">
+  
     <div class="layui-container">
       <div class="article-add layui-form">
         <div class="layui-tab layui-tab-brief" lay-filter="user">
@@ -10,15 +11,21 @@
                   <div class="layui-col-md3">
                     <label for="" class="layui-form-label">分类</label>
                     <div class="layui-input-block">
+                      <select lay-verify="required" lay-filter="theme">
+                        <option value="font">前端</option>
+                        <option value="back">后端</option>
+                        <option value="more">更多</option>
+                      </select>
                       <select lay-verify="required" name="tips" lay-filter="column">
-                        <option value=""></option>
+                        <option v-for="(item,i) in tipsArr" :value="item" :label="item" :key="i">{{item}}</option>
+                        <!-- <option value=""></option>
                         <option value="javascript">javascript</option>
                         <option value="html">html</option>
                         <option value="css">css</option>
                         <option value="nodejs">nodejs</option>
                         <option value="react">react</option>
                         <option value="angular">angular</option>
-                        <option value="vue">vue</option>                        
+                        <option value="vue">vue</option> -->
                       </select>
                     </div>
                   </div>
@@ -49,8 +56,10 @@
     data() {
       return {
         element: '',
-
+        tipsArr: ['javascript']
       }
+    },
+    methods: {
     },
     created() {
     },
@@ -76,15 +85,35 @@
             title,
             content: layedit.getContent(index)
           }
-          that.$axios.post('/article/post', data).then(res=>{
-            if(res.status){
-              layer.msg(res.data.msg,{time:1000},() => {
-                that.$router.push({path: '/'})
-              })
-            }else{
-              layer.msg(`发表失败，失败信息：${msg.msg}`)
-            }
-          })
+          console.log(data);
+          
+          // that.$axios.post('/article/post', data).then(res=>{
+          //   if(res.status){
+          //     layer.msg(res.data.msg,{time:1000},() => {
+          //       that.$router.push({path: '/'})
+          //     })
+          //   }else{
+          //     layer.msg(`发表失败，失败信息：${msg.msg}`)
+          //   }
+          // })
+        })
+        form.on('select(theme)', (data) => {
+          console.log(data);
+          form.render('select');
+          if(data.value == 'font'){
+            that.tipsArr = [
+              'javascript'
+            ]
+          }else if(data.value == 'back'){
+            that.tipsArr = [
+              'C'
+            ]
+          }else{
+            that.tipsArr = [
+              '测试'
+            ]
+          }
+          
         })
         form.render()
       });
