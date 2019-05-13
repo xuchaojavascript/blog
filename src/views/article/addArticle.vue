@@ -1,50 +1,29 @@
 <template>
   <div id="main">
-  
     <div class="layui-container">
-      <div class="article-add layui-form">
-        <div class="layui-tab layui-tab-brief" lay-filter="user">
-          <div id="editing" class="layui-form layui-form-content">
-            <div class="layui-tab-item layui-show">
-              <form action="/article" method="POST">
-                <div class="layui-row layui-col-space15 layui-form-item">
-                  <div class="layui-col-md3">
-                    <label for="" class="layui-form-label">分类</label>
-                    <div class="layui-input-block">
-                      <select lay-verify="required" lay-filter="theme">
-                        <option value="font">前端</option>
-                        <option value="back">后端</option>
-                        <option value="more">更多</option>
-                      </select>
-                      <select lay-verify="required" name="tips" lay-filter="column">
-                        <option v-for="(item,i) in tipsArr" :value="item" :label="item" :key="i">{{item}}</option>
-                        <!-- <option value=""></option>
-                        <option value="javascript">javascript</option>
-                        <option value="html">html</option>
-                        <option value="css">css</option>
-                        <option value="nodejs">nodejs</option>
-                        <option value="react">react</option>
-                        <option value="angular">angular</option>
-                        <option value="vue">vue</option> -->
-                      </select>
-                    </div>
-                  </div>
-                  <div class="layui-col-md9">
-                    <label for="" class="layui-form-label">标题</label>
-                    <div class="layui-input-block">
-                        <input type="text" id="L_title" class="layui-input" name="title" required="" lay-verify="required" autocomplete="off">
-                    </div>
-                  </div>
-                </div>
-                <div class="layui-form-item layui-form-text">
-                  <textarea id="article-content"></textarea>
-                </div>
-              </form>
-            </div>
+      <div class="article-add">
+        <div class="article-top">
+          <div class="layui-col-md3 article-tip">
+            <label>分类：</label>
+            <select v-model="theme" @change="changeTheme">
+              <option value="font">前端</option>
+              <option value="back">后端</option>
+              <option value="more">更多</option>
+            </select>
+            <select v-model="createData.tips">
+              <option v-for="(item,i) in tipsArr" :value="item" :label="item" :key="i">{{item}}</option>
+            </select>
           </div>
-          <div class="layui-form-item">
-            <button class="layui-btn" lay-filter="send" lay-submit>立即发布</button>
+          <div class="layui-col-md9 article-title">
+            <label>标题：</label>
+            <input type="text" v-model="createData.title">
           </div>
+        </div>
+        <div>
+          <textarea id="article-content"></textarea>
+        </div>
+        <div class="article-btn">
+          <button class="layui-btn" @click="createArticle">立即发布</button>
         </div>
       </div>
     </div>
@@ -56,66 +35,59 @@
     data() {
       return {
         element: '',
-        tipsArr: ['javascript']
+        tipsArr: ['HTML','CSS','JavaScript','node.js','Vue.js','其它'],
+        theme: 'font',
+        createData: {
+          tips: 'HTML',
+          title: '',
+        },
+        textEditor: '',
+        layedit: ''
       }
     },
     methods: {
+      createArticle(){
+        let that = this
+        this.createData.content = this.layedit.getContent(this.textEditor)
+        this.$axios.post('/article/post', this.createData).then(res=>{
+          layui.use('layer', function(){
+            var layer = layui.layer;
+            if(res.status){
+              layer.msg(res.data.msg,{time:1000},() => {
+                that.$router.push({path: '/'})
+              })
+            }else{
+              layer.msg(`发表失败，失败信息：${msg.msg}`)
+            }
+          });
+        })
+      },
+      changeTheme(){
+        if(this.theme == 'font'){
+          this.tipsArr = ['HTML','CSS','JavaScript','node.js','Vue.js','其它']
+          this.createData.tips = 'HTML'
+        }else if(this.theme == 'back'){
+          this.tipsArr = ['Java','Python','C++','PHP','其它']
+          this.createData.tips = 'Java'
+        }else{
+          this.tipsArr = ['运维','测试','设计','其他']
+          this.createData.tips = '运维'
+        }
+      }
     },
     created() {
     },
     mounted() {
       let that = this
-      layui.use(['form', 'layedit', "element", 'layer'], function() {
+      layui.use(['layedit'], function() {
         let val = "#{logNot}";
-        const form = layui.form;
-        const layedit = layui.layedit;
-        var layer = layui.layer;
+        that.layedit = layui.layedit;
         const $ = layui.$
-        const index = layedit.build('article-content', {
+        that.textEditor = that.layedit.build('article-content', {
           hideTool: [
             'image' //插入图片
           ]
-        }); //建立编辑器
-        form.on("submit(send)", (res) => {
-          const { tips, title } = res.field
-          if(layedit.getText(index).trim().length === 0)return layer.alert("请输入内容")
-          const data = {
-            author: JSON.parse(window.localStorage.getItem('userData')).userId,
-            tips,
-            title,
-            content: layedit.getContent(index)
-          }
-          console.log(data);
-          
-          // that.$axios.post('/article/post', data).then(res=>{
-          //   if(res.status){
-          //     layer.msg(res.data.msg,{time:1000},() => {
-          //       that.$router.push({path: '/'})
-          //     })
-          //   }else{
-          //     layer.msg(`发表失败，失败信息：${msg.msg}`)
-          //   }
-          // })
-        })
-        form.on('select(theme)', (data) => {
-          console.log(data);
-          form.render('select');
-          if(data.value == 'font'){
-            that.tipsArr = [
-              'javascript'
-            ]
-          }else if(data.value == 'back'){
-            that.tipsArr = [
-              'C'
-            ]
-          }else{
-            that.tipsArr = [
-              '测试'
-            ]
-          }
-          
-        })
-        form.render()
+        });
       });
     },
   }
@@ -130,24 +102,29 @@
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);
     border: 1px solid #fff;
     .article-add {
-      padding-top: 7.5px;
+      padding-top: 15px;
+      .article-top{
+        height: 50px;
+        line-height: 50px;
+        font-size: 16px;
+        color: #666;
+        text-indent: 10px;
+        .article-tip{
+          select{
+            width: 100px;
+            height: 30px;
+          }
+        }
+        .article-title{
+          input{
+            width: 90%;
+            height: 30px;
+          }
+        }
+      }
+      .article-btn{
+        margin: 10px;
+      }
     }
-  }
-  .layui-form .layui-form-label{
-    width: 110px;
-    padding: 8px 15px;
-    height: 38px;
-    line-height: 20px;
-    border: 1px solid #e6e6e6;
-    border-radius: 2px 0 0 2px;
-    text-align: center;
-    background-color: #FBFBFB;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    box-sizing: border-box;
-  }
-  .layui-tab-title{
-    margin-bottom: 20px;
   }
 </style>
