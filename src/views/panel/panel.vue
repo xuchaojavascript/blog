@@ -4,7 +4,7 @@
     <div class="layui-container">
       <ul class="layui-clear">
         <li class="panel-cart" v-for="(v,i) in menus" :key="i">
-          <a href="javascript:;">{{v.name}}</a>
+          <a href="javascript:;" @click="goList(v.name)">{{v.name}}</a>
         </li>
         <!-- <li><a href="javascript:;">HTML</a></li>
         <li><a href="javascript:;">CSS</a></li>
@@ -68,6 +68,14 @@
             layer.msg('请先登录')
           })
         }
+      },
+      goList(tip){
+        this.$router.push({
+          path: '/blog/index/article_list',
+          query: {
+            tip
+          }
+        })
       }
     },
     mounted() {

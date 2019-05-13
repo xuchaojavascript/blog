@@ -35,9 +35,20 @@
     },
     methods: {
       getArticleList(){
-        this.$axios.get('/article/getlist').then(res=>{
-          this.articleDatas = res.data.artList
-        })
+        // if(this.$router)
+        // console.log(this.$router.query);
+        
+        if(this.$router.query){
+          this.$axios.get('/article/getlist', this.$router.query.tip).then(res=>{
+            this.articleDatas = res.data.artList
+          })
+        }else{
+          this.$axios.get('/article/getlist', {tip: ''}).then(res=>{ 
+            console.log(res);
+            
+            this.articleDatas = res.data.artList
+          })
+        }
       },
       goToDetail(id){
         this.$router.push({
