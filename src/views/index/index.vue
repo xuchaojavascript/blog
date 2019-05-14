@@ -4,14 +4,14 @@
       <div class="layui-container">
         <ul class="layui-nav layui-bg-cyan">
           <li class="layui-nav-item layui-this">
-            <router-link :to="{path:'/'}">
+            <router-link :to="{path:'/blog',query: {themeId: '0'}}">
             <i class="layui-icon layui-icon-home">
               首页
             </i>
             </router-link>
           </li>
           <li class="layui-nav-item" v-for="(v, i) in menus" :key="i">
-            <router-link :to="{path:'/blog',query: {id: v.id}}">{{v.name}}</router-link>
+            <router-link :to="{path:'/blog',query: {themeId: v.id}}">{{v.name}}</router-link>
           </li>
         </ul>
         <ul class="layui-nav blog-user layui-bg-cyan" v-if="isAlyLogin">
@@ -67,24 +67,6 @@ export default {
   },
 
   methods: {
-    // 跳转登录注册页面
-    goto(id){
-      if(id == 1){
-        this.$router.push({
-          path:  `/login`,
-          query:{
-            id,
-          }
-        })
-      }else{
-        this.$router.push({
-          path:  `/register`,
-          query:{
-            id,
-          }
-        })
-      }
-    },
     // 退出登录
     loginOut(){
       let that = this

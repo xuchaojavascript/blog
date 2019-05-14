@@ -25,12 +25,15 @@
   export default {
     data() {
       return {
-        menus:[]
+        menus:[],
+        themtId: 0
       }
     },
     methods: {
       getMenus(id){
-        if(!id || id == '1'){
+        if(!id || id == '0'){
+          this.menus = [{name: '全部',id: 1}]
+        }else if(id == '1'){
           this.menus = [
             {name: 'HTML',id: 1},
             {name: 'CSS',id: 2},
@@ -39,6 +42,7 @@
             {name: 'vue.js',id: 5},
             {name: '其他',id: 6},
           ]
+          this.goList('HTML')
         }else if(id == '2'){
           this.menus = [
             {name: 'Java',id: 1},
@@ -47,6 +51,7 @@
             {name: 'PHP',id: 4},
             {name: '其他',id: 5},
           ]
+          this.goList('Java')
         }else if(id == '3'){
           this.menus = [
             {name: '运维',id: 1},
@@ -54,6 +59,7 @@
             {name: '设计',id: 3},
             {name: '其他',id: 4},
           ]
+          this.goList('运维')
         }
       },
       addArticle(){
@@ -69,24 +75,29 @@
           })
         }
       },
-      goList(tip){
+      goList(name){
         this.$router.push({
           path: '/blog/index/article_list',
           query: {
-            tip
+            tip : name == '全部' ? '' : name
           }
         })
       }
     },
     mounted() {
-
-      this.getMenus(1)
+      // console.log(111)
+      this.getMenus()
       // this.getArticleList()
     },
     watch: {
       $route(newVal,oldVal){
-        this.getMenus(newVal.query.id)
-      }
+        if(newVal.query.themeId){
+          this.getMenus(newVal.query.themeId)
+        }
+        // console.log(!newVal.query.themeId)
+        // this.themtId = newVal.query.themeId
+        // this.getMenus(newVal.query.themeId)
+      },
     },
   }
 </script>

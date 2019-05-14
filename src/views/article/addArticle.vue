@@ -49,6 +49,7 @@
       createArticle(){
         let that = this
         this.createData.content = this.layedit.getContent(this.textEditor)
+        this.createData.author = JSON.parse(window.localStorage.getItem('userData')).userId
         this.$axios.post('/article/post', this.createData).then(res=>{
           layui.use('layer', function(){
             var layer = layui.layer;
@@ -76,6 +77,8 @@
       }
     },
     created() {
+      console.log(JSON.parse(window.localStorage.getItem('userData')));
+      
     },
     mounted() {
       let that = this

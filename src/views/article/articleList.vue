@@ -37,13 +37,14 @@
       getArticleList(){
         // if(this.$router)
         // console.log(this.$router.query);
+        console.log(this.$route);
         
-        if(this.$router.query){
-          this.$axios.get('/article/getlist', this.$router.query.tip).then(res=>{
+        if(this.$route.query){
+          this.$axios.get('/article/getlist', {params:{tip: this.$route.query.tip}}).then(res=>{
             this.articleDatas = res.data.artList
           })
         }else{
-          this.$axios.get('/article/getlist', {tip: ''}).then(res=>{ 
+          this.$axios.get('/article/getlist', {params:{tip: ''}}).then(res=>{ 
             console.log(res);
             
             this.articleDatas = res.data.artList
@@ -62,6 +63,10 @@
     mounted() {
       this.getArticleList()
     },
+    watch: {
+      // 如果路由有变化，会再次执行该方法
+      "$route": "getArticleList"
+    }
   }
 </script>
 
@@ -90,7 +95,5 @@
       }
     }
   }
-  
-
 
 </style>
