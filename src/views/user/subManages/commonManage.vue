@@ -4,6 +4,7 @@
       <thead>
         <tr>
           <th>被评文章</th>
+          <th>评论作者</th>
           <th>评论内容</th>
           <th>评论时间</th>
           <th>操作</th>
@@ -15,6 +16,7 @@
 
 <script>
   export default {
+    // /comment/list
     created() {
       layui.use('table', function(){
 

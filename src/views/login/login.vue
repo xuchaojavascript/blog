@@ -107,15 +107,15 @@
           if(this.verify(this.registerInfo)){
             layui.use('layer', function(){
               var layer = layui.layer;
-              if(!this.confirmPwd){
+              if(!that.confirmPwd){
                 layer.msg('请输入确认密码');
-              }else if(this.registerInfo.password != this.confirmPwd){
+              }else if(that.registerInfo.password != that.confirmPwd){
                 layer.msg('密码不一致');
               }else{
-                this.$axios.post('/user/reg', this.registerInfo).then(res=>{
+                that.$axios.post('/user/reg', that.registerInfo).then(res=>{
                   if(res.data.status){
                     layer.msg('注册成功，跳转登录页面');
-                    this.isLogin = true
+                    that.isLogin = true
                   }else{
                     layer.msg('注册失败,'+res.data.msg);
                   }

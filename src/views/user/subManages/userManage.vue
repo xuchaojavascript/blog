@@ -5,9 +5,12 @@
         <tr>
           <th>用户名</th>
           <th>权限</th>
-          <th>文章数量</th>
-          <th>评论数量</th>
           <th>操作</th>
+        </tr>
+        <tr v-for="(item, i) in tableData" :key="i">
+          <td>{{item.username}}</td>
+          <td>{{item.role}}</td>
+          <td><button class="layui-btn layui-btn-danger">删除</button></td>
         </tr>
       </thead>
     </table>
@@ -16,9 +19,24 @@
 
 <script>
   export default {
+    data() {
+      return {
+        tableData: []
+      }
+    },
+    methods: {
+      getUserList(){
+        this.$axios.get('/user/list').then(res => {
+          this.tableData = res.data.userList
+          console.log(this.tableData);
+        })
+      }
+    },
+    mounted(){
+      this.getUserList()
+    },
     created() {
       layui.use('table', function(){
-
       })
     },
   }
@@ -30,7 +48,7 @@
   padding: 15px;
   .layui-table{
     color: #666;
-    th{
+    th, td{
       text-align: center;
     }
   }
