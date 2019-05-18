@@ -12,8 +12,7 @@
         <span>&nbsp;分类：</span>
         <span class="article-tip">{{articleData.tips}}</span>
       </div>
-      <div class="article-detail article-content" style="padding:10px;">
-        {{articleData.content}}
+      <div class="article-detail article-content" style="padding:10px;" v-html="articleData.content">
       </div>
     </div>
     <div class="comment default-box">

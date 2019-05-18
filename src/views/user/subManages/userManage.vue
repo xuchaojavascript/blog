@@ -1,5 +1,5 @@
 <template>
-  <div class="layui-body">
+  <div>
     <table class="layui-table" lay-filter="demo">
       <thead>
         <tr>
@@ -7,12 +7,14 @@
           <th>权限</th>
           <th>操作</th>
         </tr>
-        <tr v-for="(item, i) in tableData" :key="i">
+      </thead>
+      <tbody>
+        <tr v-for="(item, i) in tableData" :key="i" v-show="item.role != 999">
           <td>{{item.username}}</td>
           <td>{{item.role}}</td>
-          <td><button class="layui-btn layui-btn-danger">删除</button></td>
+          <td><button class="layui-btn layui-btn-danger" @click="deleteUser(item._id)">删除</button></td>
         </tr>
-      </thead>
+      </tbody>
     </table>
   </div>
 </template>
@@ -30,6 +32,21 @@
           this.tableData = res.data.userList
           console.log(this.tableData);
         })
+      },
+      deleteUser(userId){
+        let that = this
+        let data = {
+          params: {
+            userId
+          }
+        }
+        this.$axios.delete('/user/delete',data).then(res => {
+          layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.msg(res.data.msg)
+            that.getUserList()
+          });
+        })
       }
     },
     mounted(){
@@ -42,15 +59,11 @@
   }
 </script> 
 <style scoped lang="scss">
-.layui-body{
-  background-color: #f0f0f0;
-  margin-top: 60px;
-  padding: 15px;
-  .layui-table{
-    color: #666;
-    th, td{
-      text-align: center;
-    }
+.layui-table{
+  width: 100%;
+  color: #666;
+  th, td{
+    text-align: center;
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="layui-body">
+  <div>
     <div>头像上传
       <button id="upload" class="layui-btn layui-btn-danger" type="button" style="margin-left:10px;">
         <i class="layui-icon"></i>上传图片
@@ -16,9 +16,4 @@
 </script>
 
 <style scoped lang="scss">
-.layui-body{
-  background-color: #f0f0f0;
-  margin-top: 60px;
-  padding: 15px;
-}
 </style>

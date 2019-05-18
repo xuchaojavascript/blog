@@ -23,7 +23,7 @@
             <router-link :to="{path:'/user/user_manage'}" class="userManageLink layui-this" v-show="userManageMenu">用户管理</router-link>
           </li>
           <li class="layui-nav-item">
-            <router-link :to="{path:'/user/article_manage'}" :class="'userManageLink' + (userManageMenu?'':'layui-this')">文章管理</router-link>
+            <router-link :to="{path:'/user/article_manage'}" :class="'userManageLink' + (userManageMenu?'':' layui-this')">文章管理</router-link>
           </li>
           
           <li class="layui-nav-item">
@@ -35,7 +35,9 @@
         </ul>
       </div>
     </div>
-    <router-view></router-view>
+    <div class="layui-body">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -120,5 +122,10 @@
         text-align:center;
       }
     }
+  }
+  .layui-body{
+    position: relative;
+    width: calc(100% - 200px);
+    padding: 15px;
   }
 </style>

@@ -87,6 +87,8 @@
       submitInfo(){
         var that = this
         if(this.isLogin){
+          console.log(this.loginInfo);
+          
           if(this.verify(this.loginInfo)){
             this.$axios.post('/user/login', this.loginInfo).then(res=>{
               layui.use('layer', function(){
