@@ -5,7 +5,6 @@
         <tr>
           <th>被评文章</th>
           <th>评论作者</th>
-          <th>评论内容</th>
           <th>评论时间</th>
           <th>操作</th>
         </tr>
@@ -14,11 +13,10 @@
         <tr v-for="(item, i) in tableData" :key="i">
           <td>{{item.article.title}}</td>
           <td>{{item.author.username}}</td>
-          <td>{{item.content}}</td>
           <td>{{item.createTime.toLocaleString()}}</td>
           <td>
-            <button class="layui-btn">查看文章详情</button>
-            <button class="layui-btn layui-btn-danger" @click="deleteComment(item._id)">删除</button>
+            <button class="layui-btn" @click="showDetail(item)">查看</button>
+            <button class="layui-btn layui-btn-danger" @click="deleteComment(item)">删除</button>
           </td>
         </tr>
       </tbody>
@@ -46,14 +44,14 @@
         }
         this.$axios.get('/comment/list', data).then(res => {
           this.tableData = res.data.commentList
-          console.log(this.tableData);
         })
       },
-      deleteComment(commentId){
+      deleteComment(comment){
         let that = this
         let data = {
           params: {
-            commentId
+            commentId: comment._id,
+            articleId: comment.article._id,
           }
         }
         this.$axios.delete('/comment/delete',data).then(res => {
@@ -63,6 +61,13 @@
             that.getCommentList()
           });
         })
+      },
+      showDetail(data){
+        layer.open({
+          area: '500px',
+          title: data.createTime.toLocaleString(),
+          content: data.content
+        });
       }
     },
     mounted(){

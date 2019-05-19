@@ -17,7 +17,7 @@
           <td>{{item.author.username}}</td>
           <td>{{item.commentNum ? item.commentNum : 0}}</td>
           <td>
-            <button class="layui-btn">查看</button>
+            <button class="layui-btn" @click="showDetail(item)">查看</button>
             <button class="layui-btn layui-btn-danger" @click="deleteArticle(item._id)">删除</button>
           </td>
         </tr>
@@ -30,7 +30,8 @@
   export default {
     data() {
       return {
-        tableData: []
+        tableData: [],
+        layer: ''
       }
     },
     methods: {
@@ -63,14 +64,22 @@
             that.getArticleList()
           });
         })
+      },
+      showDetail(data){        
+        layer.open({
+          area: '500px',
+          title: data.title,
+          content: data.content
+        });
       }
     },
     mounted(){
       this.getArticleList()
     },
     created() {
-      layui.use('table', function(){
-
+      let that = this
+      layui.use(['table','layer'], function(){
+        that.layer = layui.layer
       })
     },
   }
