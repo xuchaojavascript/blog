@@ -4,6 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store/index.js'
+import echarts from 'echarts'
+// 全局配置echarts
+Vue.prototype.$echarts = echarts
 // axios
 import Axios from 'axios'
 Axios.defaults.baseURL = 'http://localhost:3000'

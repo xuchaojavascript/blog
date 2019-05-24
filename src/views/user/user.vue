@@ -29,9 +29,9 @@
           <li class="layui-nav-item">
             <router-link :to="{path:'/user/common_manage'}" :class="'userManageLink'">评论管理</router-link>
           </li>
-          <li class="layui-nav-item">
+          <!-- <li class="layui-nav-item">
             <router-link :to="{path:'/user/userface'}" :class="'userManageLink'">头像上传</router-link>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>

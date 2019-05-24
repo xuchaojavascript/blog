@@ -47,25 +47,26 @@
         }
         this.$axios.get('/article/list', data).then(res => {
           this.tableData = res.data.articleList
-          console.log(this.tableData);
         })
       },
       deleteArticle(articleId){
         let that = this
-        let data = {
-          params: {
-            articleId
+        if (confirm("确认删除本文章以及文章下的评论？")){
+          let data = {
+            params: {
+              articleId
+            }
           }
+          this.$axios.delete('/article/delete',data).then(res => {
+            layui.use('layer', function(){
+              var layer = layui.layer;
+              layer.msg(res.data.msg)
+              that.getArticleList()
+            });
+          })
         }
-        this.$axios.delete('/article/delete',data).then(res => {
-          layui.use('layer', function(){
-            var layer = layui.layer;
-            layer.msg(res.data.msg)
-            that.getArticleList()
-          });
-        })
       },
-      showDetail(data){        
+      showDetail(data){    
         layer.open({
           area: '500px',
           title: data.title,

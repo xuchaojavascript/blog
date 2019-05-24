@@ -48,19 +48,21 @@
       },
       deleteComment(comment){
         let that = this
-        let data = {
-          params: {
-            commentId: comment._id,
-            articleId: comment.article._id,
+        if (confirm("确认删除本文章以及文章下的评论？")){
+          let data = {
+            params: {
+              commentId: comment._id,
+              articleId: comment.article._id,
+            }
           }
+          this.$axios.delete('/comment/delete',data).then(res => {
+            layui.use('layer', function(){
+              var layer = layui.layer;
+              layer.msg(res.data.msg)
+              that.getCommentList()
+            });
+          })
         }
-        this.$axios.delete('/comment/delete',data).then(res => {
-          layui.use('layer', function(){
-            var layer = layui.layer;
-            layer.msg(res.data.msg)
-            that.getCommentList()
-          });
-        })
       },
       showDetail(data){
         layer.open({

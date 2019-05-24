@@ -30,23 +30,25 @@
       getUserList(){
         this.$axios.get('/user/list').then(res => {
           this.tableData = res.data.userList
-          console.log(this.tableData);
         })
       },
       deleteUser(userId){
         let that = this
-        let data = {
-          params: {
-            userId
+        if (confirm("确认删除本用户的所有文章、评论以及文章下的他人评论？")){
+          let data = {
+            params: {
+              userId
+            }
           }
+          this.$axios.delete('/user/delete',data).then(res => {
+            layui.use('layer', function(){
+              var layer = layui.layer;
+        
+              layer.msg(res.data.msg)
+              that.getUserList()
+            });
+          })
         }
-        this.$axios.delete('/user/delete',data).then(res => {
-          layui.use('layer', function(){
-            var layer = layui.layer;
-            layer.msg(res.data.msg)
-            that.getUserList()
-          });
-        })
       }
     },
     mounted(){

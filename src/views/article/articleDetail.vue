@@ -25,7 +25,7 @@
       </div>
       <ul class="comment-list">
          <li v-for="(item, i) in commentData" :key="i">
-          <img :src="item.author.avatar" alt="">
+          <img src="../../assets/images/user1.jpg" alt="">
           <div>
               <p class="author">{{item.author.username}}</p>
               <p class="time">{{item.createTime | formatting}}</p>

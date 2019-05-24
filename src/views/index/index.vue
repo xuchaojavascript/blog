@@ -21,7 +21,7 @@
             </li>
             <li class="layui-nav-item">
               <a href="javascript:;">
-                <img class="user-avatar layui-nav-img" src="" alt="">
+                <img class="user-avatar layui-nav-img" src="../../assets/images/user1.jpg" alt="">
                 <span class="user-name">{{userInfo.username}}</span>
                 <span class="layui-nav-more"></span>
               </a>

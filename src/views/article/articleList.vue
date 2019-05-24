@@ -3,7 +3,7 @@
     <ul class="article-list">
       <li class="article-menu" v-for="(v,i) in articleDatas" :key="i">
         <a href="javascript:;" class="list-face">
-          <!-- <img src="${v.author.avatar}" alt="${v.author}"> -->
+          <img src="../../assets/images/user1.jpg" alt="${v.author}" width="45" height="45">
         </a>
         <h2>
           <a href="javascript:;" class="layui-badge">{{v.tips}}</a>
@@ -44,7 +44,7 @@
             this.articleDatas = res.data.artList
           })
         }else{
-          this.$axios.get('/article/getlist', {params:{tip: ''}}).then(res=>{ 
+          this.$axios.get('/article/getlist', {params:{tip: ''}}).then(res=>{
             console.log(res);
             
             this.articleDatas = res.data.artList
